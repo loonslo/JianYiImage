@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+  :root { --ink:#3a2a20; --accent:#b8512f; --paper:#f7f0e3; --line:#c9b79c; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1600px; height: 1000px; overflow: hidden; }
+  body {
+    font-family: "Microsoft YaHei", "Microsoft YaHei UI", sans-serif;
+    color: var(--ink);
+    background:
+      radial-gradient(1200px 700px at 12% 8%, rgba(255,255,255,.85), transparent 60%),
+      radial-gradient(900px 600px at 95% 100%, rgba(184,81,47,.10), transparent 60%),
+      var(--paper);
+    position: relative;
+  }
+  .frame { position:absolute; inset:34px; border:3px solid var(--ink); }
+  .frame::after { content:""; position:absolute; inset:9px; border:1px solid var(--line); }
+  header { position:absolute; left:0; right:0; top:74px; text-align:center; }
+  h1 { font-family:"KaiTi","STKaiti",serif; font-size:112px; letter-spacing:.32em; text-indent:.32em; font-weight:700; line-height:1; }
+  .en { margin-top:18px; font-size:34px; letter-spacing:.16em; text-indent:.16em; color:var(--accent); font-weight:700; }
+  .sub { margin-top:22px; font-size:34px; letter-spacing:.2em; text-indent:.2em; }
+  .sub::before, .sub::after { content:""; display:inline-block; width:150px; height:2px; background:var(--ink); vertical-align:middle; margin:0 26px; opacity:.55; }
+  main { position:absolute; left:128px; right:128px; top:344px; display:grid; grid-template-columns:1fr 1fr; column-gap:120px; }
+  h2 { font-family:"Microsoft YaHei","Microsoft YaHei UI",sans-serif; font-weight:700; font-size:52px; margin-bottom:22px; color:var(--accent); letter-spacing:.12em; }
+  h2 small { font-family:Georgia,serif; font-size:26px; letter-spacing:.08em; color:var(--ink); opacity:.65; margin-left:14px; font-weight:700; }
+  li { list-style:none; display:flex; align-items:baseline; font-size:40px; line-height:1; padding:16px 0; }
+  li .dots { flex:1; border-bottom:3px dotted var(--line); margin:0 16px; transform:translateY(-8px); }
+  li .price { font-family:"Segoe UI","Microsoft YaHei",sans-serif; font-weight:700; font-size:42px; }
+  li .price::before { content:"¥"; font-size:28px; margin-right:3px; }
+  footer { position:absolute; left:128px; right:128px; bottom:84px; display:flex; justify-content:space-between; align-items:center; font-size:34px; border-top:3px solid var(--ink); padding-top:26px; }
+  footer b { font-family:"Segoe UI","Microsoft YaHei",sans-serif; font-size:36px; color:var(--accent); font-weight:700; }
+  .cup { position:absolute; right:150px; top:84px; width:150px; opacity:.9; }
+</style>
+</head>
+<body>
+<div class="frame"></div>
+<svg class="cup" viewBox="0 0 120 120" fill="none" stroke="#3a2a20" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M22 48h64v26a24 24 0 0 1-24 24H46a24 24 0 0 1-24-24V48z" fill="#f2e3c9"/>
+  <path d="M86 56h8a12 12 0 0 1 0 24h-9"/>
+  <path d="M42 36c-6-6 6-10 0-18M58 36c-6-6 6-10 0-18M74 36c-6-6 6-10 0-18" stroke="#b8512f"/>
+  <path d="M16 108h80"/>
+</svg>
+<header>
+  <h1>半山咖啡</h1>
+  <div class="en">山间手冲 · 每日现烘</div>
+  <div class="sub">今日菜单</div>
+</header>
+<main>
+  <section>
+    <h2>咖啡</h2>
+    <ul>
+      <li>美式咖啡<span class="dots"></span><span class="price">18</span></li>
+      <li>经典拿铁<span class="dots"></span><span class="price">22</span></li>
+      <li>香草拿铁<span class="dots"></span><span class="price">26</span></li>
+      <li>手冲单品<span class="dots"></span><span class="price">32</span></li>
+      <li>冰酿咖啡<span class="dots"></span><span class="price">28</span></li>
+    </ul>
+  </section>
+  <section>
+    <h2>甜点</h2>
+    <ul>
+      <li>提拉米苏<span class="dots"></span><span class="price">28</span></li>
+      <li>芝士蛋糕<span class="dots"></span><span class="price">26</span></li>
+      <li>黄油可颂<span class="dots"></span><span class="price">16</span></li>
+      <li>司康配果酱<span class="dots"></span><span class="price">20</span></li>
+      <li>当日手作饼干<span class="dots"></span><span class="price">12</span></li>
+    </ul>
+  </section>
+</main>
+<footer>
+  <span>营业时间　09:00 至 21:00</span>
+  <span>无线网络　<b>banshan-cafe</b>　密码　<b>20261010</b></span>
+</footer>
+</body>
+</html>

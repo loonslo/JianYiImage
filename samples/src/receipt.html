@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 760px; height: 1280px; overflow: hidden; }
+  body {
+    font-family: "Microsoft YaHei", "Microsoft YaHei UI", sans-serif;
+    color: #20242a;
+    background:
+      radial-gradient(700px 500px at 20% 0%, #d9dde4, transparent 70%),
+      linear-gradient(180deg, #c5cad3, #aeb4bf);
+    position: relative;
+  }
+  .paper {
+    position:absolute; left:90px; right:90px; top:48px; bottom:48px; padding:56px 44px 40px;
+    background: linear-gradient(180deg, #fbfbf8, #f4f4ef);
+    box-shadow: 0 18px 40px rgba(20,28,40,.35), 0 2px 0 rgba(0,0,0,.06);
+  }
+  .paper::before, .paper::after {
+    content:""; position:absolute; left:0; right:0; height:16px;
+    background: linear-gradient(-45deg, transparent 8px, var(--edge) 0) 0 0 / 22px 16px,
+                linear-gradient(45deg, transparent 8px, var(--edge) 0) 0 0 / 22px 16px;
+  }
+  .paper::before { top:-15px; transform:rotate(180deg); --edge:#fbfbf8; }
+  .paper::after { bottom:-15px; --edge:#f4f4ef; }
+  h1 { text-align:center; font-size:46px; letter-spacing:.14em; font-weight:700; }
+  .en { text-align:center; margin-top:8px; font-size:28px; letter-spacing:.02em; color:#444; font-weight:700; }
+  .sep { margin:22px 0; border-top:3px dashed #8a8f98; }
+  .kv { display:flex; justify-content:space-between; font-size:28px; line-height:1.9; }
+  table { width:100%; border-collapse:collapse; font-size:29px; }
+  th { text-align:left; font-weight:700; padding:8px 0; border-bottom:2px solid #20242a; }
+  th:last-child, td:last-child { text-align:right; }
+  td { padding:11px 0; }
+  .total { display:flex; justify-content:space-between; align-items:baseline; font-size:40px; font-weight:700; margin-top:6px; }
+  .small { font-size:25px; line-height:1.9; color:#30343b; }
+  .thanks { text-align:center; margin-top:18px; font-size:30px; letter-spacing:.18em; }
+  .barcode { height:112px; margin:22px 0 8px;
+    background: repeating-linear-gradient(90deg, #111 0 3px, transparent 3px 6px, #111 6px 7px, transparent 7px 12px, #111 12px 16px, transparent 16px 19px); }
+  .code { text-align:center; font-size:28px; letter-spacing:.12em; color:#333; }
+</style>
+</head>
+<body>
+<div class="paper">
+  <h1>示例便利店</h1>
+  <div class="en">SAMPLE MART</div>
+  <div class="sep"></div>
+  <div class="kv"><span>单号</span><span>20261010000123</span></div>
+  <div class="kv"><span>时间</span><span>2026/10/10 18:42</span></div>
+  <div class="kv"><span>收银员</span><span>03 号</span></div>
+  <div class="sep"></div>
+  <table>
+    <tr><th>商品</th><th>数量</th><th>金额</th></tr>
+    <tr><td>矿泉水</td><td>2</td><td>5.00</td></tr>
+    <tr><td>全麦面包</td><td>1</td><td>8.50</td></tr>
+    <tr><td>鲜牛奶</td><td>1</td><td>12.00</td></tr>
+  </table>
+  <div class="sep"></div>
+  <div class="total"><span>合计</span><span>¥25.50</span></div>
+  <div class="kv small"><span>支付方式</span><span>扫码支付</span></div>
+  <div class="sep"></div>
+  <div class="small">客服电话　400 000 0000<br>服务时间　每日 08:00 至 22:00</div>
+  <div class="barcode"></div>
+  <div class="code">2026 1010 000123</div>
+  <div class="thanks">谢谢惠顾　欢迎再来</div>
+</div>
+</body>
+</html>

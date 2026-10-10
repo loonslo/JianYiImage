@@ -51,7 +51,7 @@ function Send-CheckedKey([int]$Key, [bool]$TextFocus) {
     Start-Sleep -Milliseconds 250
 }
 if (-not (Test-Path -LiteralPath $Exe -PathType Leaf) -or -not (Test-Path -LiteralPath $Image -PathType Leaf)) { throw 'Exe and Image must exist.' }
-$fixtureDir = Join-Path $env:TEMP ('imageviewer-input-' + [Guid]::NewGuid().ToString('N'))
+$fixtureDir = Join-Path $env:TEMP ('jianyiimage-input-' + [Guid]::NewGuid().ToString('N'))
 New-Item -ItemType Directory -Path $fixtureDir | Out-Null
 $fixture = Join-Path $fixtureDir '01-copy.png'
 Copy-Item -LiteralPath $Image -Destination $fixture

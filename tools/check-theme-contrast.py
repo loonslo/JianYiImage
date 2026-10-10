@@ -5,7 +5,7 @@ import sys
 import xml.etree.ElementTree as ET
 
 XAML_KEY = "{http://schemas.microsoft.com/winfx/2006/xaml}Key"
-THEME = Path(__file__).resolve().parents[1] / "src/ImageViewer.App/Themes/AppTheme.xaml"
+THEME = Path(__file__).resolve().parents[1] / "src/JianYiImage.App/Themes/AppTheme.xaml"
 
 
 def rgb(value: str) -> tuple[float, float, float]:

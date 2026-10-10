@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>JianYiImage.Core</RootNamespace>
+    <AssemblyName>JianYiImage.Core</AssemblyName>
+  </PropertyGroup>
+
+</Project>

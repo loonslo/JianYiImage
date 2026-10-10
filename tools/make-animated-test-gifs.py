@@ -1,4 +1,4 @@
-"""生成 tests/ImageViewer.Core.Tests/TestAssets/ 下的两个动图测试样本。
+"""生成 tests/JianYiImage.Core.Tests/TestAssets/ 下的两个动图测试样本。
 
 这两个文件是签入仓库的二进制测试资产，本脚本记录它们是怎么来的，
 方便日后需要改测试场景时重新生成，而不是留一个不知来历的 .gif。
@@ -11,7 +11,7 @@ from pathlib import Path
 
 from PIL import Image, ImageDraw
 
-OUTPUT_DIR = Path(__file__).resolve().parent.parent / "tests" / "ImageViewer.Core.Tests" / "TestAssets"
+OUTPUT_DIR = Path(__file__).resolve().parent.parent / "tests" / "JianYiImage.Core.Tests" / "TestAssets"
 
 W, H = 60, 40
 RED, BLUE, GREEN, MAGENTA = (220, 30, 30), (30, 30, 220), (30, 200, 30), (255, 0, 255)

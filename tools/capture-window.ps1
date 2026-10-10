@@ -1,7 +1,7 @@
 param(
     [string]$Exe = '',
     [string]$Image = '',
-    [string]$OutDir = (Join-Path $env:TEMP 'imageviewer-ui-refresh'),
+    [string]$OutDir = (Join-Path $env:TEMP 'jianyiimage-ui-refresh'),
     [string]$Name = 'shot',
     [int]$Width = 0,
     [int]$Height = 0,
@@ -38,7 +38,7 @@ Add-Type -AssemblyName UIAutomationTypes
 Add-Type -TypeDefinition @'
 using System;
 using System.Runtime.InteropServices;
-public static class ImageViewerCaptureNative {
+public static class JianYiImageCaptureNative {
     [StructLayout(LayoutKind.Sequential)]
     public struct RECT { public int Left, Top, Right, Bottom; }
     [DllImport("user32.dll")] public static extern bool SetProcessDPIAware();
@@ -48,7 +48,7 @@ public static class ImageViewerCaptureNative {
     [DllImport("user32.dll")] public static extern uint GetDpiForWindow(IntPtr hwnd);
 }
 '@
-[ImageViewerCaptureNative]::SetProcessDPIAware() | Out-Null
+[JianYiImageCaptureNative]::SetProcessDPIAware() | Out-Null
 
 function ConvertTo-Ascii([string]$Value) {
     return -join ($Value.ToCharArray() | ForEach-Object {
@@ -57,8 +57,8 @@ function ConvertTo-Ascii([string]$Value) {
 }
 
 function Save-Window([IntPtr]$Handle, [string]$Path) {
-    $rect = New-Object ImageViewerCaptureNative+RECT
-    if (-not [ImageViewerCaptureNative]::GetWindowRect($Handle, [ref]$rect)) {
+    $rect = New-Object JianYiImageCaptureNative+RECT
+    if (-not [JianYiImageCaptureNative]::GetWindowRect($Handle, [ref]$rect)) {
         throw 'GetWindowRect failed.'
     }
     $captureWidth = $rect.Right - $rect.Left
@@ -69,7 +69,7 @@ function Save-Window([IntPtr]$Handle, [string]$Path) {
         $graphics = [Drawing.Graphics]::FromImage($bitmap)
         try {
             $hdc = $graphics.GetHdc()
-            try { $ok = [ImageViewerCaptureNative]::PrintWindow($Handle, $hdc, 2) }
+            try { $ok = [JianYiImageCaptureNative]::PrintWindow($Handle, $hdc, 2) }
             finally { $graphics.ReleaseHdc($hdc) }
             if (-not $ok) { throw 'PrintWindow failed.' }
         }
@@ -104,10 +104,10 @@ try {
         if (-not $TitleContains) {
             $TitleContains = [regex]::Unescape('\u7b80\u58f9\u56fe\u7247\u6d4f\u89c8\u5668')
         }
-        $matches = @(Get-Process -Name ImageViewer -ErrorAction SilentlyContinue | Where-Object {
+        $matches = @(Get-Process -Name JianYiImage -ErrorAction SilentlyContinue | Where-Object {
             $_.MainWindowHandle -ne [IntPtr]::Zero -and $_.MainWindowTitle.Contains($TitleContains)
         })
-        if ($matches.Count -ne 1) { throw ('Attach requires one matching ImageViewer window; found ' + $matches.Count) }
+        if ($matches.Count -ne 1) { throw ('Attach requires one matching JianYiImage window; found ' + $matches.Count) }
         $process = $matches[0]
         Write-Output ('attached PID ' + $process.Id)
     }
@@ -131,8 +131,8 @@ try {
     }
     $hwnd = $process.MainWindowHandle
     if ($hwnd -eq [IntPtr]::Zero) { throw 'No main window after 15 seconds.' }
-    Write-Output ('DPI=' + [ImageViewerCaptureNative]::GetDpiForWindow($hwnd))
-    if ($Width -gt 0 -and -not [ImageViewerCaptureNative]::SetWindowPos(
+    Write-Output ('DPI=' + [JianYiImageCaptureNative]::GetDpiForWindow($hwnd))
+    if ($Width -gt 0 -and -not [JianYiImageCaptureNative]::SetWindowPos(
         $hwnd, [IntPtr]::Zero, 0, 0, $Width, $Height, 0x0004)) { throw 'SetWindowPos failed.' }
     if (-not $Attach -or $Width -gt 0) { Start-Sleep -Milliseconds 2500 }
     Save-Window $hwnd (Join-Path $outputRoot ($Name + '.png'))
@@ -141,7 +141,7 @@ try {
     if ($Extract) {
         # Open extraction at full width before restoring a narrow target size.
         if ($Width -gt 0 -and $Width -lt 800) {
-            [ImageViewerCaptureNative]::SetWindowPos($hwnd, [IntPtr]::Zero, 0, 0, 1280, $Height, 0x0004) | Out-Null
+            [JianYiImageCaptureNative]::SetWindowPos($hwnd, [IntPtr]::Zero, 0, 0, 1280, $Height, 0x0004) | Out-Null
             Start-Sleep -Milliseconds 300
         }
         $condition = New-Object System.Windows.Automation.PropertyCondition(
@@ -157,7 +157,7 @@ try {
         $button.GetCurrentPattern([System.Windows.Automation.InvokePattern]::Pattern).Invoke()
         Start-Sleep -Milliseconds 3000
         if ($Width -gt 0 -and $Width -lt 800) {
-            [ImageViewerCaptureNative]::SetWindowPos($hwnd, [IntPtr]::Zero, 0, 0, $Width, $Height, 0x0004) | Out-Null
+            [JianYiImageCaptureNative]::SetWindowPos($hwnd, [IntPtr]::Zero, 0, 0, $Width, $Height, 0x0004) | Out-Null
             Start-Sleep -Milliseconds 500
         }
         Save-Window $hwnd (Join-Path $outputRoot ($Name + '-panel.png'))

@@ -124,7 +124,27 @@ try {
     if ($found -contains $false) { throw 'Zoom group was not fully flattened into the overflow menu.' }
     $actual.GetCurrentPattern([System.Windows.Automation.InvokePattern]::Pattern).Invoke()
     Start-Sleep -Milliseconds 200
+    # The menu runs the (collapsed) toolbar button through its own handler. A failure there is swallowed by the menu and
+    # only appears as a message in the status bar, so it has to be read from there.
+    $failedPrefix = -join ([char[]](0x64cd, 0x4f5c, 0x5931, 0x8d25))
+    $status = Find-Id 'FileStatusText'
+    if ($null -ne $status -and $status.Current.Name.StartsWith($failedPrefix)) {
+        throw ('Overflow menu command failed: ' + (Escaped $status.Current.Name))
+    }
     Write-Output 'PASS hidden zoom group flattened and actual-size menu command invoked'
+    # A hidden command must really work, not just be clickable: the panel has to open from the overflow menu.
+    Invoke-Id 'OverflowButton'
+    $extractLabel = -join ([char[]](0x63d0, 0x53d6, 0x6587, 0x5b57))
+    $extractItem = @(Menu-Items | Where-Object { $_.Current.Name -eq $extractLabel }) | Select-Object -First 1
+    if ($null -eq $extractItem) { throw 'Extract text command was not found in the overflow menu.' }
+    $extractItem.GetCurrentPattern([System.Windows.Automation.InvokePattern]::Pattern).Invoke()
+    Start-Sleep -Milliseconds 1200
+    Assert-Panel $true
+    $status = Find-Id 'FileStatusText'
+    if ($null -ne $status -and $status.Current.Name.StartsWith($failedPrefix)) {
+        throw ('Overflow extract command failed: ' + (Escaped $status.Current.Name))
+    }
+    Write-Output 'PASS hidden extract-text command opens the panel from the overflow menu'
     $checkWidth = 1280
     $checkHeight = 800
     [FinalUiaNative]::SetWindowPos($hwnd, [IntPtr]::Zero, 0, 0, 1280, 800, 0x0004) | Out-Null

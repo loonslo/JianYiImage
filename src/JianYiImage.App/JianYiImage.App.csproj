@@ -1,0 +1,59 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>JianYiImage.App</RootNamespace>
+    <AssemblyName>JianYiImage</AssemblyName>
+    <Title>简壹图片浏览器</Title>
+    <AssemblyTitle>简壹图片浏览器</AssemblyTitle>
+    <Product>简壹图片浏览器</Product>
+    <Description>简壹图片浏览器 — 图片浏览、缩放和本地文字提取</Description>
+    <ApplicationIcon>Assets\Jianyi.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+
+    <!-- WinUI 3，免安装（unpackaged）+ 自包含运行时，拷贝即用 -->
+    <UseWinUI>true</UseWinUI>
+    <WindowsPackageType>None</WindowsPackageType>
+    <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+    <SelfContained>true</SelfContained>
+
+    <!-- 必须是 true，即便本应用完全不产出 MSIX 包：Windows App SDK 2.5.1 的
+         unpackaged + self-contained 组合在 EnableMsixTooling=false 时，
+         dotnet publish（不是 dotnet build，build 不受影响）产出的目录里
+         WindowsAppRuntime 的原生引导资源会缺失，启动直接崩溃——
+         退出码 0xC000027B / STATUS_ENTRYPOINT_NOT_FOUND，故障模块 Microsoft.ui.xaml.dll，
+         这是 Windows App SDK 一个有据可查的已知坑（多个 GitHub issue 报告过同样现象）。
+         本机实测确认：改成 true 后 dotnet publish 产出的 exe 才能正常启动。 -->
+    <EnableMsixTooling>true</EnableMsixTooling>
+
+    <!-- 冷启动优化：R2R 把 IL 预编译成本机代码，省掉大部分 JIT 时间。
+         不开 PublishTrimmed——WinUI 大量依赖 XAML 反射解析类型，裁剪后
+         运行时抛 TypeLoadException 的风险明显大于省下的体积，不划算。 -->
+    <PublishReadyToRun>true</PublishReadyToRun>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- 曾经试过只引用 Microsoft.WindowsAppSDK.WinUI 子包，想省掉全量元包里
+         用不到的 AI/ML/Search 组件（能省约 45MB）。实测启动直接崩溃，
+         退出码 0xC000027B（STATUS_ENTRYPOINT_NOT_FOUND）——子包各自解析出的
+         内部依赖版本对不齐（构建时 NU1603 已经提示版本不完全匹配，只是就近取整凑合过了编译）。
+         完整元包保证的是一整套互相验证过、能配合工作的组件版本，这个体积优化不值得
+         用启动崩溃去换，改回来。 -->
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="2.5.1" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.2705" />
+    <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\JianYiImage.Core\JianYiImage.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\Jianyi.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>

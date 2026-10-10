@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin:0; padding:0; }
+  html, body { width:1600px; height:1000px; overflow:hidden; background:#101536; }
+  svg { display:block; }
+  .title { position:absolute; left:112px; bottom:112px; color:#fff; font-family:"Microsoft YaHei","Microsoft YaHei UI",sans-serif; text-shadow:0 4px 24px rgba(10,14,40,.55); }
+  .title h1 { font-size:150px; font-weight:700; letter-spacing:.12em; line-height:1; }
+  .title p { margin-top:26px; font-size:44px; letter-spacing:.28em; opacity:.95; font-weight:600; }
+</style>
+</head>
+<body>
+<svg width="1600" height="1000" viewBox="0 0 1600 1000" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1f2c63"/>
+      <stop offset=".34" stop-color="#5b5aa6"/>
+      <stop offset=".58" stop-color="#e48f84"/>
+      <stop offset=".72" stop-color="#ffd2a1"/>
+    </linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#fff6d6" stop-opacity=".95"/>
+      <stop offset=".35" stop-color="#ffd9a0" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#ffd9a0" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="lake" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f3b48f"/>
+      <stop offset=".25" stop-color="#7d6aa6"/>
+      <stop offset="1" stop-color="#1a2150"/>
+    </linearGradient>
+    <filter id="grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" seed="7"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer><feFuncA type="linear" slope=".5"/></feComponentTransfer>
+    </filter>
+    <g id="pine">
+      <path d="M0 0 L26 60 H10 L34 112 H14 L40 170 H-40 L-14 112 H-34 L-10 60 H-26 Z"/>
+    </g>
+  </defs>
+
+  <rect width="1600" height="1000" fill="url(#sky)"/>
+  <circle cx="1130" cy="548" r="330" fill="url(#glow)"/>
+  <circle cx="1130" cy="548" r="86" fill="#fff4d0"/>
+
+  <!-- clouds -->
+  <g fill="#ffffff" opacity=".16">
+    <rect x="120" y="190" width="520" height="22" rx="11"/>
+    <rect x="240" y="236" width="420" height="18" rx="9"/>
+    <rect x="980" y="150" width="440" height="20" rx="10"/>
+    <rect x="1080" y="196" width="320" height="16" rx="8"/>
+  </g>
+
+  <!-- far mountains -->
+  <path d="M0 640 L120 560 L230 610 L380 490 L520 600 L650 540 L790 622 L930 520 L1070 610 L1210 540 L1360 612 L1480 560 L1600 610 V720 H0 Z" fill="#8f86b8" opacity=".9"/>
+  <!-- mid mountains -->
+  <path d="M0 690 L150 600 L300 676 L470 540 L640 668 L760 610 L930 700 L1100 585 L1260 690 L1420 610 L1600 690 V760 H0 Z" fill="#5f5b97"/>
+  <!-- near mountains -->
+  <path d="M0 740 L190 650 L340 728 L560 604 L760 736 L980 650 L1180 744 L1380 662 L1600 744 V800 H0 Z" fill="#363a73"/>
+
+  <!-- lake -->
+  <rect y="736" width="1600" height="264" fill="url(#lake)"/>
+  <g stroke="#ffe7bf" stroke-linecap="round" opacity=".55">
+    <line x1="1010" y1="760" x2="1250" y2="760" stroke-width="5"/>
+    <line x1="1040" y1="782" x2="1220" y2="782" stroke-width="4"/>
+    <line x1="1065" y1="804" x2="1195" y2="804" stroke-width="4"/>
+    <line x1="1085" y1="828" x2="1175" y2="828" stroke-width="3"/>
+    <line x1="1100" y1="852" x2="1160" y2="852" stroke-width="3"/>
+  </g>
+  <!-- mirrored mountain hint -->
+  <path d="M0 740 L190 830 L340 752 L560 876 L760 744 L980 830 L1180 736 L1380 818 L1600 736 V736 H0 Z" fill="#232860" opacity=".35"/>
+
+  <!-- foreground shore + pines -->
+  <path d="M0 800 C180 770 330 790 520 806 C720 824 860 800 1010 818 C1240 846 1420 808 1600 826 V1000 H0 Z" fill="#141a45"/>
+  <g fill="#0d1236">
+    <use href="#pine" transform="translate(1390 760) scale(1.25)"/>
+    <use href="#pine" transform="translate(1486 782) scale(.95)"/>
+    <use href="#pine" transform="translate(1300 786) scale(.8)"/>
+    <use href="#pine" transform="translate(1548 800) scale(1.4)"/>
+  </g>
+
+  <!-- birds -->
+  <g fill="none" stroke="#2a2f66" stroke-width="4" stroke-linecap="round" opacity=".8">
+    <path d="M820 330 q22 -22 44 0 q22 -22 44 0"/>
+    <path d="M940 392 q16 -16 32 0 q16 -16 32 0"/>
+    <path d="M700 420 q14 -14 28 0 q14 -14 28 0"/>
+  </g>
+
+  <rect width="1600" height="1000" filter="url(#grain)" opacity=".16"/>
+</svg>
+<div class="title">
+  <h1>山海之间</h1>
+  <p>日出 · 远山 · 湖泊</p>
+</div>
+</body>
+</html>

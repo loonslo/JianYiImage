@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1600px; height: 900px; overflow: hidden; }
+  body {
+    font-family: "Microsoft YaHei", "Microsoft YaHei UI", sans-serif;
+    color: #f4f7ff;
+    background:
+      radial-gradient(900px 560px at 88% 12%, rgba(88,130,255,.38), transparent 62%),
+      radial-gradient(800px 600px at 0% 100%, rgba(52,211,153,.18), transparent 60%),
+      linear-gradient(135deg, #0e1730 0%, #14214a 55%, #0f1a3a 100%);
+    position: relative;
+  }
+  .bar { position:absolute; left:0; top:0; bottom:0; width:18px; background:linear-gradient(#4f8cff,#34d399); }
+  .tag { position:absolute; left:110px; top:76px; font-size:32px; letter-spacing:.06em; color:#8fb0ff; font-weight:700; }
+  h1 { position:absolute; left:106px; top:130px; font-size:104px; font-weight:700; letter-spacing:.04em; line-height:1.1; }
+  .date { position:absolute; left:110px; top:268px; font-size:38px; color:#b9c6e6; }
+  .rows { position:absolute; left:110px; right:110px; top:370px; }
+  .row { display:flex; align-items:center; margin-bottom:26px; padding:24px 34px; border-radius:20px;
+         background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.12); font-size:46px; line-height:1.15; }
+  .pill { flex:none; width:168px; text-align:center; margin-right:52px; padding:8px 0; border-radius:999px; font-size:34px; font-weight:700; }
+  .done { background:#12b886; color:#06231a; }
+  .doing { background:#4f8cff; color:#06142e; }
+  .todo { background:#ffd166; color:#3a2a00; }
+  .who { background:#9fb2d9; color:#0b1530; }
+  .row span.meta { margin-left:auto; font-size:36px; color:#b9c6e6; }
+  .deco { position:absolute; right:-120px; top:-120px; width:520px; height:520px; border-radius:50%; border:2px solid rgba(143,176,255,.35); }
+  .deco.b { right:-40px; top:-40px; width:360px; height:360px; border-color:rgba(143,176,255,.22); }
+</style>
+</head>
+<body>
+<div class="bar"></div>
+<div class="deco"></div><div class="deco b"></div>
+<div class="tag">WEEKLY SYNC</div>
+<h1>产品周会纪要</h1>
+<div class="date">2026 年 10 月 · 第 2 周</div>
+<div class="rows">
+  <div class="row"><div class="pill done">已完成</div>安装程序新增 OCR 语言包勾选页</div>
+  <div class="row"><div class="pill doing">进行中</div>项目主页增加示例图片和使用说明</div>
+  <div class="row"><div class="pill todo">待验证</div>Windows 11 与高分屏缩放回归</div>
+  <div class="row"><div class="pill who">负责人</div>示例同学<span class="meta">截止 10 月 17 日</span></div>
+</div>
+</body>
+</html>

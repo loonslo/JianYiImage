@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1600px; height: 1000px; overflow: hidden; }
+  body {
+    font-family: "Microsoft YaHei", "Microsoft YaHei UI", sans-serif;
+    color: #12332f;
+    background:
+      radial-gradient(900px 600px at 100% 0%, rgba(45,212,191,.28), transparent 62%),
+      radial-gradient(700px 500px at 0% 100%, rgba(250,204,21,.20), transparent 60%),
+      linear-gradient(160deg, #ecfdf7 0%, #d9f5ec 100%);
+    position: relative;
+  }
+  .card { position:absolute; left:110px; right:110px; top:84px; bottom:84px; border-radius:36px; background:#fff;
+          box-shadow: 0 30px 70px rgba(15,118,110,.22), 0 2px 0 rgba(15,118,110,.08); overflow:hidden; }
+  .head { height:250px; padding:48px 70px 0; color:#fff; position:relative;
+          background: linear-gradient(120deg, #0f766e 0%, #14b8a6 100%); }
+  .head::after { content:""; position:absolute; right:-70px; top:-90px; width:380px; height:380px; border-radius:50%; background:rgba(255,255,255,.12); }
+  .head .kicker { font-size:34px; font-weight:700; letter-spacing:.12em; opacity:.92; }
+  .head h1 { margin-top:16px; font-size:84px; font-weight:700; letter-spacing:.04em; line-height:1.1; }
+  .badge { position:absolute; right:84px; top:54px; z-index:1; width:150px; height:150px; border-radius:30px; background:#fff; color:#0f766e;
+           display:flex; flex-direction:column; align-items:center; justify-content:center; box-shadow:0 10px 26px rgba(0,0,0,.18); }
+  .badge b { font-size:76px; line-height:1; }
+  .badge span { font-size:32px; font-weight:700; margin-top:6px; }
+  .rows { padding:44px 70px 0; }
+  .row { display:flex; align-items:baseline; font-size:46px; line-height:1; padding:25px 0; border-bottom:2px dashed #cfe8e1; white-space:nowrap; }
+  .row:last-child { border-bottom:none; }
+  .row .k { color:#0f766e; font-weight:400; margin-right:0; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="head">
+    <div class="kicker">社区活动通知</div>
+    <h1>周末读书会</h1>
+  </div>
+  <div class="badge"><b>18</b><span>10 月</span></div>
+  <div class="rows">
+    <div class="row"><span class="k">时间：</span>10 月 18 日（周六）下午 2 点至 4 点半</div>
+    <div class="row"><span class="k">地址：</span>文化中心二层多功能厅</div>
+    <div class="row"><span class="k">主题：</span>如何把零散的资料整理成清单</div>
+    <div class="row"><span class="k">报名：</span>回复「读书会」即可，名额 30 人</div>
+    <div class="row"><span class="k">提示：</span>请自带水杯，现场提供茶点</div>
+  </div>
+</div>
+</body>
+</html>
