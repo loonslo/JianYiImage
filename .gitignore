@@ -1,0 +1,13 @@
+bin/
+obj/
+TestResults/
+.vs/
+*.user
+
+# 测试图由 tools/make-test-images.ps1 生成，不入库
+test-images/
+
+# 临时截图
+shot-*.png
+# 设计与验收正本需要随仓库保存。
+!docs/design/shot-*.png

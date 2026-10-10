@@ -1,0 +1,45 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Color x:Key="AppCanvasColor">#FF161616</Color>
+    <Color x:Key="AppChromeColor">#FF202020</Color>
+    <Color x:Key="AppStrokeColor">#FF2E2E2E</Color>
+    <Color x:Key="AppStrokeStrongColor">#FF3C3C3C</Color>
+    <Color x:Key="AppTextPrimaryColor">#FFF2F2F2</Color>
+    <Color x:Key="AppTextSecondaryColor">#FFB4B4B4</Color>
+    <Color x:Key="AppTextTertiaryColor">#FF8C8C8C</Color>
+    <Color x:Key="AppAccentColor">#FF5E9BFF</Color>
+    <Color x:Key="AppAccentFillColor">#FF3166DF</Color>
+    <Color x:Key="AppAccentWashColor">#295E9BFF</Color>
+    <Color x:Key="AppAccentRingColor">#665E9BFF</Color>
+    <Color x:Key="AppHoverColor">#12FFFFFF</Color>
+    <Color x:Key="AppPressedColor">#1CFFFFFF</Color>
+    <Color x:Key="AppSubtleFillColor">#0EFFFFFF</Color>
+    <Color x:Key="AppNavButtonColor">#DB202020</Color>
+    <Color x:Key="AppNavRingColor">#29FFFFFF</Color>
+    <Color x:Key="AppSelectionFillColor">#473166DF</Color>
+    <Color x:Key="AppSelectionRingColor">#8C3166DF</Color>
+    <SolidColorBrush x:Key="AppCanvasBrush" Color="{StaticResource AppCanvasColor}" />
+    <SolidColorBrush x:Key="AppChromeBrush" Color="{StaticResource AppChromeColor}" />
+    <SolidColorBrush x:Key="AppStrokeBrush" Color="{StaticResource AppStrokeColor}" />
+    <SolidColorBrush x:Key="AppStrokeStrongBrush" Color="{StaticResource AppStrokeStrongColor}" />
+    <SolidColorBrush x:Key="AppTextPrimaryBrush" Color="{StaticResource AppTextPrimaryColor}" />
+    <SolidColorBrush x:Key="AppTextSecondaryBrush" Color="{StaticResource AppTextSecondaryColor}" />
+    <SolidColorBrush x:Key="AppTextTertiaryBrush" Color="{StaticResource AppTextTertiaryColor}" />
+    <SolidColorBrush x:Key="AppAccentBrush" Color="{StaticResource AppAccentColor}" />
+    <SolidColorBrush x:Key="AppAccentFillBrush" Color="{StaticResource AppAccentFillColor}" />
+    <SolidColorBrush x:Key="AppAccentWashBrush" Color="{StaticResource AppAccentWashColor}" />
+    <SolidColorBrush x:Key="AppAccentRingBrush" Color="{StaticResource AppAccentRingColor}" />
+    <SolidColorBrush x:Key="AppHoverBrush" Color="{StaticResource AppHoverColor}" />
+    <SolidColorBrush x:Key="AppPressedBrush" Color="{StaticResource AppPressedColor}" />
+    <SolidColorBrush x:Key="AppSubtleFillBrush" Color="{StaticResource AppSubtleFillColor}" />
+    <SolidColorBrush x:Key="AppNavButtonBrush" Color="{StaticResource AppNavButtonColor}" />
+    <SolidColorBrush x:Key="AppNavRingBrush" Color="{StaticResource AppNavRingColor}" />
+    <!-- D1: keep all color literals in the theme dictionary. -->
+    <Color x:Key="SystemAccentColor">#FF3166DF</Color>
+    <Color x:Key="SystemAccentColorLight1">#FF4C86F0</Color>
+    <Color x:Key="SystemAccentColorLight2">#FF5E9BFF</Color>
+    <Color x:Key="SystemAccentColorLight3">#FF8DB8FF</Color>
+    <Color x:Key="SystemAccentColorDark1">#FF2756BC</Color>
+    <Color x:Key="SystemAccentColorDark2">#FF1F4599</Color>
+    <Color x:Key="SystemAccentColorDark3">#FF183776</Color>
+</ResourceDictionary>

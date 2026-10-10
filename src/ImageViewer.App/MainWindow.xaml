@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="ImageViewer.App.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:ImageViewer.App.Controls">
+
+    <Grid
+        x:Name="RootGrid"
+        AllowDrop="True"
+        Background="{StaticResource AppCanvasBrush}"
+        DragOver="OnDragOver"
+        Drop="OnDrop"
+        KeyDown="OnKeyDown">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="AppTitleBar" Grid.Row="0" Height="32" Background="{StaticResource AppChromeBrush}">
+            <Grid Margin="0,0,144,0" VerticalAlignment="Center" ColumnSpacing="8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" MaxWidth="600" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <controls:BrandMark Width="16" Height="16" Compact="True" Margin="12,0,1,0" />
+                <TextBlock x:Name="TitleFileName" Grid.Column="1" FontSize="12" Foreground="{StaticResource AppTextPrimaryBrush}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+                <TextBlock x:Name="TitlePosition" Grid.Column="2" FontSize="12" Foreground="{StaticResource AppTextTertiaryBrush}" VerticalAlignment="Center" />
+            </Grid>
+        </Grid>
+
+        <!-- 常用命令分组；更多操作常驻，溢出从右向左收起。 -->
+        <Border Grid.Row="1" Height="44" Padding="12,5" Background="{StaticResource AppChromeBrush}" BorderBrush="{StaticResource AppStrokeBrush}" BorderThickness="0,0,0,1">
+            <Grid x:Name="ToolbarGrid" SizeChanged="OnToolbarSizeChanged" ColumnSpacing="6">
+                <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                <StackPanel x:Name="CommandStrip" Orientation="Horizontal" Spacing="6">
+                    <Button x:Name="OpenButton" Click="OnOpenButtonClick" Style="{StaticResource ToolbarButtonStyle}" AutomationProperties.Name="打开" ToolTipService.ToolTip="打开（Ctrl+O）"><StackPanel Orientation="Horizontal" Spacing="8"><FontIcon Glyph="&#xE838;" FontSize="16" /><TextBlock Text="打开" VerticalAlignment="Center" /></StackPanel></Button>
+                    <Border Tag="divider" Width="1" Margin="4,4" Background="{StaticResource AppStrokeStrongBrush}" />
+                    <Button x:Name="PreviousButton" Click="OnPreviousButtonClick" IsEnabled="False" Style="{StaticResource ToolbarButtonStyle}" AutomationProperties.Name="上一张" ToolTipService.ToolTip="上一张（←）"><FontIcon Glyph="&#xE76B;" FontSize="16" /></Button>
+                    <Button x:Name="NextButton" Click="OnNextButtonClick" IsEnabled="False" Style="{StaticResource ToolbarButtonStyle}" AutomationProperties.Name="下一张" ToolTipService.ToolTip="下一张（→）"><FontIcon Glyph="&#xE76C;" FontSize="16" /></Button>
+                    <Border Tag="divider" Width="1" Margin="4,4" Background="{StaticResource AppStrokeStrongBrush}" />
+                    <Border x:Name="ZoomGroup" Background="{StaticResource AppSubtleFillBrush}" CornerRadius="6"><StackPanel Orientation="Horizontal"><Button x:Name="ZoomOutButton" Click="OnZoomOutButtonClick" Style="{StaticResource ToolbarButtonStyle}" AutomationProperties.Name="缩小" ToolTipService.ToolTip="缩小（Ctrl+−）"><FontIcon Glyph="&#xE738;" FontSize="16" /></Button><Button x:Name="ActualSizeButton" Click="OnActualSizeButtonClick" Style="{StaticResource ToolbarButtonStyle}" AutomationProperties.Name="实际大小" ToolTipService.ToolTip="实际大小 100%（Ctrl+0）" MinWidth="62" Content="100%" /><Button x:Name="ZoomInButton" Click="OnZoomInButtonClick" Style="{StaticResource ToolbarButtonStyle}" AutomationProperties.Name="放大" ToolTipService.ToolTip="放大（Ctrl++）"><FontIcon Glyph="&#xE710;" FontSize="16" /></Button></StackPanel></Border>
+                    <Button x:Name="FitButton" Click="OnFitButtonClick" Style="{StaticResource ToolbarButtonStyle}" AutomationProperties.Name="适应窗口" ToolTipService.ToolTip="适应窗口（Ctrl+1）"><FontIcon Glyph="&#xE740;" FontSize="16" /></Button>
+                    <Border Tag="divider" Width="1" Margin="4,4" Background="{StaticResource AppStrokeStrongBrush}" />
+                    <Button x:Name="RotateCounterClockwiseButton" Click="OnRotateCounterClockwiseButtonClick" Style="{StaticResource ToolbarButtonStyle}" AutomationProperties.Name="逆时针旋转 90°" ToolTipService.ToolTip="逆时针旋转 90°（Shift+R）"><FontIcon Glyph="&#xE7A7;" FontSize="16" /></Button>
+                    <Button x:Name="RotateClockwiseButton" Click="OnRotateClockwiseButtonClick" Style="{StaticResource ToolbarButtonStyle}" AutomationProperties.Name="顺时针旋转 90°" ToolTipService.ToolTip="顺时针旋转 90°（R）"><FontIcon Glyph="&#xE7A6;" FontSize="16" /></Button>
+                    <Border Tag="divider" Width="1" Margin="4,4" Background="{StaticResource AppStrokeStrongBrush}" />
+                    <Button x:Name="ExtractTextButton" Click="OnExtractTextButtonClick" Style="{StaticResource ToolbarButtonStyle}" AutomationProperties.Name="提取文字" ToolTipService.ToolTip="提取文字"><StackPanel Orientation="Horizontal" Spacing="8"><FontIcon Glyph="&#xE8D2;" FontSize="16" /><TextBlock Text="提取文字" VerticalAlignment="Center" /></StackPanel></Button>
+                    <Button x:Name="CopyTextButton" Click="OnCopyExtractedTextButtonClick" Style="{StaticResource ToolbarButtonStyle}" AutomationProperties.Name="复制文字" ToolTipService.ToolTip="复制全部文字"><FontIcon Glyph="&#xE8C8;" FontSize="16" /></Button>
+                </StackPanel>
+                <Button x:Name="OverflowButton" Grid.Column="1" Width="32" Style="{StaticResource ToolbarButtonStyle}" Padding="0" AutomationProperties.Name="更多操作" ToolTipService.ToolTip="更多操作">
+                    <FontIcon Glyph="&#xE712;" FontSize="16" />
+                    <Button.Flyout><MenuFlyout x:Name="OverflowMenu" Opening="OnOverflowMenuOpening" /></Button.Flyout>
+                </Button>
+            </Grid>
+        </Border>
+
+        <Grid x:Name="ContentGrid" Grid.Row="2" SizeChanged="OnContentSizeChanged">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid x:Name="ImageViewport" SizeChanged="OnImageViewportSizeChanged">
+            <controls:ImageCanvas x:Name="Canvas" />
+
+            <!-- 空状态：保留拖放和原有打开处理。 -->
+            <Grid x:Name="EmptyHint" MaxWidth="640" Margin="24" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
+                <Grid MaxWidth="440" HorizontalAlignment="Stretch">
+                  <Rectangle RadiusX="14" RadiusY="14" Stroke="{StaticResource AppStrokeStrongBrush}" StrokeThickness="1" StrokeDashArray="4,4" />
+                  <StackPanel Margin="24,32" Spacing="16">
+                    <controls:BrandMark Width="56" Height="56" HorizontalAlignment="Center" />
+                    <TextBlock Text="把图片拖到这里" FontSize="18" FontWeight="SemiBold" Foreground="{StaticResource AppTextPrimaryBrush}" HorizontalAlignment="Center" />
+                    <TextBlock Text="或按 Ctrl+O 选择文件" FontSize="13" Foreground="{StaticResource AppTextTertiaryBrush}" HorizontalAlignment="Center" />
+                    <Button x:Name="EmptyOpenButton" Style="{StaticResource PrimaryButtonStyle}" HorizontalAlignment="Center" Click="OnOpenButtonClick" AutomationProperties.Name="打开图片" ToolTipService.ToolTip="打开（Ctrl+O）"><StackPanel Orientation="Horizontal" Spacing="8"><FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xF12B;" FontSize="16" /><TextBlock Text="打开图片" VerticalAlignment="Center" /></StackPanel></Button>
+                  </StackPanel>
+                </Grid>
+                <Grid x:Name="ShortcutHints" Grid.Row="1" Margin="0,18,0,0" HorizontalAlignment="Center" ColumnSpacing="14" RowSpacing="8">
+                    <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="Auto" /><ColumnDefinition Width="Auto" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal" Spacing="5"><Border Style="{StaticResource ShortcutKeyStyle}"><TextBlock Text="滚轮" FontSize="11" Foreground="{StaticResource AppTextSecondaryBrush}" /></Border><TextBlock Text="缩放" Style="{StaticResource ShortcutDescriptionStyle}" /></StackPanel>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="5"><Border Style="{StaticResource ShortcutKeyStyle}"><TextBlock Text="拖动" FontSize="11" Foreground="{StaticResource AppTextSecondaryBrush}" /></Border><TextBlock Text="平移" Style="{StaticResource ShortcutDescriptionStyle}" /></StackPanel>
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="5"><Border Style="{StaticResource ShortcutKeyStyle}"><TextBlock Text="Shift + 拖动" FontSize="11" Foreground="{StaticResource AppTextSecondaryBrush}" /></Border><TextBlock Text="框选区域" Style="{StaticResource ShortcutDescriptionStyle}" /></StackPanel>
+                    <StackPanel Grid.Column="3" Orientation="Horizontal" Spacing="5"><Border Style="{StaticResource ShortcutKeyStyle}"><TextBlock Text="Ctrl + C" FontSize="11" Foreground="{StaticResource AppTextSecondaryBrush}" /></Border><TextBlock Text="复制" Style="{StaticResource ShortcutDescriptionStyle}" /></StackPanel>
+                </Grid>
+            </Grid>
+
+            <!-- 固定在图片视口两侧，文字面板展开时不会遮住右侧箭头。 -->
+            <Button
+                x:Name="PreviousArrowButton"
+                Margin="16,0,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{StaticResource ImageNavigationArrowStyle}"
+                Visibility="Collapsed"
+                IsEnabled="False"
+                Click="OnPreviousButtonClick"
+                AutomationProperties.Name="上一张图片"
+                ToolTipService.ToolTip="上一张（←）">
+                <Path Data="M 8,0 L 0,8 L 8,16" Stroke="{StaticResource AppTextPrimaryBrush}" StrokeThickness="2" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
+            </Button>
+            <Button
+                x:Name="NextArrowButton"
+                Margin="0,0,16,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Style="{StaticResource ImageNavigationArrowStyle}"
+                Visibility="Collapsed"
+                IsEnabled="False"
+                Click="OnNextButtonClick"
+                AutomationProperties.Name="下一张图片"
+                ToolTipService.ToolTip="下一张（→）">
+                <Path Data="M 0,0 L 8,8 L 0,16" Stroke="{StaticResource AppTextPrimaryBrush}" StrokeThickness="2" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
+            </Button>
+            </Grid>
+
+            <!-- 文字面板右侧停靠；关闭只改变可见性。 -->
+            <Border x:Name="TextExtractionPanel" Grid.Column="1" Width="320" Padding="16,14,16,16" Background="{StaticResource AppChromeBrush}" BorderBrush="{StaticResource AppStrokeBrush}" BorderThickness="1,0,0,0" Visibility="Collapsed">
+                <Grid RowSpacing="12">
+                    <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /><RowDefinition Height="*" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
+                    <Grid ColumnSpacing="8">
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                        <TextBlock Text="图片文字" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource AppTextPrimaryBrush}" VerticalAlignment="Center" />
+                        <Border x:Name="OcrReadyChip" Grid.Column="1" Background="{StaticResource AppAccentWashBrush}" CornerRadius="4" Padding="7,3" VerticalAlignment="Center" Visibility="Collapsed"><TextBlock Text="已识别" FontSize="11" Foreground="{StaticResource AppAccentBrush}" /></Border>
+                        <Button x:Name="CloseTextExtractionButton" Grid.Column="2" Style="{StaticResource PanelIconButtonStyle}" Click="OnCloseTextExtractionClick" AutomationProperties.Name="关闭文字提取面板" ToolTipService.ToolTip="关闭文字面板"><FontIcon Glyph="&#xE711;" FontSize="14" /></Button>
+                    </Grid>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="6">
+                        <FontIcon Glyph="&#xE72E;" FontSize="12" Foreground="{StaticResource AppTextTertiaryBrush}" />
+                        <TextBlock Text="本地识别，不上传图片" FontSize="12" Foreground="{StaticResource AppTextSecondaryBrush}" />
+                    </StackPanel>
+                    <TextBox x:Name="ExtractedTextBox" Grid.Row="2" AutomationProperties.Name="图片识别文字" Background="{StaticResource AppCanvasBrush}" Foreground="{StaticResource AppTextPrimaryBrush}" BorderBrush="{StaticResource AppStrokeBrush}" BorderThickness="1" CornerRadius="8" Padding="10" FontSize="13.5" AcceptsReturn="True" IsReadOnly="True" IsSpellCheckEnabled="False" TextWrapping="Wrap" ScrollViewer.VerticalScrollBarVisibility="Auto" />
+                    <Button x:Name="CopyAllTextButton" Grid.Row="3" Style="{StaticResource PrimaryButtonStyle}" HorizontalAlignment="Stretch" Click="OnCopyExtractedTextButtonClick" AutomationProperties.Name="复制全部" ToolTipService.ToolTip="复制全部文字"><StackPanel Orientation="Horizontal" Spacing="8"><FontIcon Glyph="&#xE8C8;" FontSize="16" /><TextBlock Text="复制全部" VerticalAlignment="Center" /></StackPanel></Button>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- 状态栏：识别状态和临时操作提示；尺寸与格式在右侧。 -->
+        <Border Grid.Row="3" Height="28" Padding="12,0" Background="{StaticResource AppChromeBrush}" BorderBrush="{StaticResource AppStrokeBrush}" BorderThickness="0,1,0,0">
+            <Grid ColumnSpacing="16">
+                <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                    <FontIcon x:Name="OcrStatusIcon" Glyph="&#xE73E;" FontSize="12" Foreground="{StaticResource AppAccentBrush}" Visibility="Collapsed" />
+                    <TextBlock x:Name="OcrStatusText" FontSize="12" Foreground="{StaticResource AppTextSecondaryBrush}" TextTrimming="CharacterEllipsis" />
+                    <TextBlock x:Name="FileStatusText" FontSize="12" Foreground="{StaticResource AppTextSecondaryBrush}" TextTrimming="CharacterEllipsis" Text="就绪" />
+                </StackPanel>
+                <TextBlock x:Name="ImageInfoText" Grid.Column="1" FontSize="12" VerticalAlignment="Center" Foreground="{StaticResource AppTextSecondaryBrush}" />
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
