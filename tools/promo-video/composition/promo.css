@@ -1,0 +1,105 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+body { font-family: "Noto Sans SC", "Microsoft YaHei", sans-serif; -webkit-font-smoothing: antialiased; }
+
+#stage {
+  position: relative; width: 1080px; height: 1920px; overflow: hidden;
+  --bg: #0b1022; --ink: #ffffff; --ink2: rgba(255, 255, 255, .72); --accent: #5e9bff; --accent2: #ffc93e;
+  --glow1: rgba(94, 155, 255, .42); --glow2: rgba(124, 92, 255, .30); --glow3: rgba(255, 107, 129, .20);
+  --card-border: rgba(255, 255, 255, .12); --card-shadow: 0 50px 120px rgba(0, 0, 0, .55), 0 10px 30px rgba(0, 0, 0, .35);
+  --chip-bg: rgba(255, 255, 255, .08); --chip-border: rgba(255, 255, 255, .14);
+  --toast-bg: rgba(255, 255, 255, .96); --toast-ink: #111827; --key-bg: #ffffff; --key-ink: #111827; --key-edge: #c7cdd8;
+  --grid: rgba(255, 255, 255, .035);
+  --keys-bg: rgba(16, 20, 32, .78); --plus: #ffffff;
+  background: var(--bg);
+}
+#stage[data-style="light"] {
+  --bg: #f4f6fb; --ink: #1e2b57; --ink2: rgba(30, 43, 87, .68); --accent: #3166df; --accent2: #ff6b81;
+  --glow1: rgba(110, 198, 255, .45); --glow2: rgba(255, 201, 62, .32); --glow3: rgba(255, 143, 168, .30);
+  --card-border: rgba(30, 43, 87, .10); --card-shadow: 0 50px 110px rgba(30, 43, 87, .32), 0 12px 30px rgba(30, 43, 87, .18);
+  --chip-bg: rgba(255, 255, 255, .75); --chip-border: rgba(30, 43, 87, .12);
+  --toast-bg: #1e2b57; --toast-ink: #ffffff; --key-bg: #1e2b57; --key-ink: #ffffff; --key-edge: #0f1836;
+  --grid: rgba(30, 43, 87, .045);
+  --keys-bg: rgba(255, 255, 255, .92); --plus: #1e2b57;
+}
+
+/* ---------- background ---------- */
+#bg { position: absolute; inset: 0; overflow: hidden; }
+.glow { position: absolute; border-radius: 50%; filter: blur(40px); will-change: transform; }
+.g1 { width: 1100px; height: 1100px; left: -420px; top: -360px; background: radial-gradient(closest-side, var(--glow1), transparent); }
+.g2 { width: 1300px; height: 1300px; left: 260px; top: 1060px; background: radial-gradient(closest-side, var(--glow2), transparent); }
+.g3 { width: 900px; height: 900px; left: 520px; top: -180px; background: radial-gradient(closest-side, var(--glow3), transparent); }
+#grid { position: absolute; inset: -60px; background-image:
+  linear-gradient(var(--grid) 2px, transparent 2px), linear-gradient(90deg, var(--grid) 2px, transparent 2px);
+  background-size: 60px 60px; mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, #000 30%, transparent 80%); }
+
+/* ---------- captions ---------- */
+#captions { position: absolute; left: 150px; top: 170px; width: 800px; height: 320px; }
+.cap { position: absolute; left: 0; top: 0; width: 800px; }
+.cap .badge { display: inline-flex; align-items: center; gap: 12px; height: 46px; padding: 0 20px; border-radius: 23px;
+  font-size: 26px; font-weight: 700; letter-spacing: .12em; color: var(--accent); background: var(--chip-bg);
+  border: 1.5px solid var(--chip-border); }
+.cap .badge b { font-weight: 900; color: var(--ink); letter-spacing: .04em; }
+.line { overflow: hidden; padding-bottom: 6px; }
+.line > span { display: inline-block; will-change: transform; }
+.cap .title { margin-top: 18px; font-size: 72px; line-height: 1.14; font-weight: 900; color: var(--ink); letter-spacing: .01em; }
+.cap .title em { font-style: normal; color: var(--accent); }
+.cap .title i { font-style: normal; color: var(--accent2); }
+.cap .sub { margin-top: 12px; font-size: 34px; line-height: 1.35; font-weight: 500; color: var(--ink2); letter-spacing: .04em; }
+.cap .sub svg { vertical-align: -4px; margin-right: 8px; }
+
+/* ---------- footage card ---------- */
+#card { position: absolute; left: 150px; top: 510px; width: 780px; height: 960px; border-radius: 26px; overflow: hidden;
+  background: #161616; box-shadow: var(--card-shadow); outline: 1.5px solid var(--card-border); outline-offset: -1px;
+  transform-origin: 50% 50%; will-change: transform, opacity; }
+#cam { position: absolute; left: 0; top: 0; transform-origin: 0 0; will-change: transform; }
+#shot, #still { position: absolute; left: 0; top: 0; display: block; }
+#still { display: none; }
+#cardfx { position: absolute; inset: 0; pointer-events: none; }
+
+/* ---------- overlays in frame coordinates ---------- */
+#fx { position: absolute; inset: 0; pointer-events: none; }
+.cursor { position: absolute; left: 0; top: 0; width: 64px; height: 64px; transform-origin: 0 0; filter: drop-shadow(0 3px 6px rgba(0, 0, 0, .45)); }
+.ripple { position: absolute; border-radius: 50%; border: 4px solid var(--accent); }
+.dot { position: absolute; border-radius: 50%; background: var(--accent); }
+.ring { position: absolute; border-radius: 12px; border: 4px solid var(--accent);
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 22%, transparent), 0 0 34px color-mix(in srgb, var(--accent) 55%, transparent); }
+.keys { position: absolute; display: flex; align-items: center; gap: 12px; transform-origin: 50% 50%;
+  padding: 14px 18px 20px; border-radius: 26px; background: var(--keys-bg); box-shadow: 0 18px 44px rgba(0, 0, 0, .28); }
+.key { min-width: 76px; height: 76px; padding: 0 22px; border-radius: 16px; display: flex; align-items: center; justify-content: center;
+  font-family: "Segoe UI", "Noto Sans SC", sans-serif; font-size: 34px; font-weight: 700; color: var(--key-ink); background: var(--key-bg);
+  box-shadow: 0 6px 0 var(--key-edge), 0 14px 30px rgba(0, 0, 0, .35); }
+.plus { font-size: 36px; font-weight: 800; color: var(--plus); }
+.toast { position: absolute; display: flex; align-items: center; gap: 16px; padding: 0 30px 0 22px; height: 82px; border-radius: 41px;
+  background: var(--toast-bg); color: var(--toast-ink); font-size: 31px; font-weight: 700; white-space: nowrap;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, .35); transform-origin: 50% 50%; }
+.toast .ok { width: 46px; height: 46px; border-radius: 50%; background: #22c55e; display: flex; align-items: center; justify-content: center; flex: none; }
+.toast small { font-size: 31px; font-weight: 500; opacity: .75; }
+
+/* ---------- brand sting ---------- */
+#brand, #end { position: absolute; inset: 0; pointer-events: none; }
+.brand-icon { position: absolute; left: 50%; top: 0; transform-origin: 50% 50%; filter: drop-shadow(0 30px 50px rgba(0, 0, 0, .35)); }
+.big-name { position: absolute; left: 0; right: 0; text-align: center; font-size: 104px; font-weight: 900; color: var(--ink); letter-spacing: .06em; }
+.latin { position: absolute; left: 0; right: 0; text-align: center; font-family: "Segoe UI", sans-serif; font-size: 34px; font-weight: 600;
+  letter-spacing: .42em; color: var(--ink2); }
+.slogan { position: absolute; left: 0; right: 0; text-align: center; font-size: 50px; font-weight: 700; color: var(--ink); }
+.slogan em { font-style: normal; color: var(--accent); }
+
+/* ---------- end card ---------- */
+.chips { position: absolute; left: 0; right: 0; display: flex; justify-content: center; gap: 18px; }
+.chip { height: 70px; padding: 0 28px; border-radius: 35px; display: flex; align-items: center; gap: 12px; font-size: 32px; font-weight: 700;
+  color: var(--ink); background: var(--chip-bg); border: 1.5px solid var(--chip-border); }
+.chip i { width: 14px; height: 14px; border-radius: 50%; background: var(--accent); }
+.cta { position: absolute; left: 50%; display: flex; align-items: center; gap: 20px; height: 108px; padding: 0 44px; border-radius: 54px;
+  transform: translateX(-50%); background: var(--accent); color: #fff; font-size: 40px; font-weight: 800; white-space: nowrap;
+  box-shadow: 0 24px 60px color-mix(in srgb, var(--accent) 45%, transparent); }
+.cta span { font-family: "Cascadia Code", "Cascadia Mono", Consolas, monospace; font-weight: 600; letter-spacing: 0; }  /* serifed I: JianYiImage, not JianYilmage */
+.fine { position: absolute; left: 0; right: 0; text-align: center; font-size: 28px; color: var(--ink2); letter-spacing: .06em; }
+
+#flash { position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; }
+
+/* ---------- name tag under the card ---------- */
+#tag { position: absolute; left: 0; right: 0; top: 1560px; display: flex; justify-content: center; align-items: center; gap: 14px;
+  font-size: 28px; font-weight: 700; color: var(--ink2); letter-spacing: .08em; }
+#tag img { width: 40px; height: 40px; }
+#tag span { font-family: "Segoe UI", sans-serif; font-weight: 600; letter-spacing: .18em; opacity: .7; font-size: 24px; }

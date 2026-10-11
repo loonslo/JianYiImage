@@ -13,15 +13,22 @@ public sealed class OcrLine
         }
 
         // 行内按左边界排序——OCR 返回的顺序通常已经正确，但不保证。
-        Words = words.OrderBy(w => w.Left).ToArray();
+        var orderedWords = words.OrderBy(w => w.Left).ToArray();
+        Words = orderedWords;
 
         Left = Words.Min(w => w.Left);
         Right = Words.Max(w => w.Right);
         Top = Words.Min(w => w.Top);
         Bottom = Words.Max(w => w.Bottom);
+
+        // 在文档形成时统一纠错，面板与任意部分的划选复制使用同一份词文本。
+        OcrUrlCorrection.Apply(orderedWords, Height);
+        JoinPrevious = OcrStructuredText.Apply(orderedWords, Height);
     }
 
     public IReadOnlyList<WordBox> Words { get; }
+
+    internal IReadOnlyList<bool> JoinPrevious { get; }
 
     public double Left { get; }
 

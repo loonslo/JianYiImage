@@ -4,6 +4,14 @@ namespace JianYiImage.Core.Tests;
 
 public class OcrLanguageSelectionTests
 {
+    [Fact]
+    public void 精细模式可保存选择且菜单显示模式名称()
+    {
+        var precise = new OcrLanguageInfo(TesseractOcrEngine.LanguageTag, "英文／代码（精细识别）");
+        Assert.Equal(precise.LanguageTag, OcrLanguageSelection.ResolveRequestedTag(precise.LanguageTag, [precise]));
+        Assert.Equal(precise.DisplayName, OcrLanguageCatalog.DisplayName(precise));
+        Assert.Null(OcrLanguageSelection.ResolveRequestedTag(precise.LanguageTag, Installed));
+    }
     private static readonly OcrLanguageInfo[] Installed =
     [
         new("zh-Hans-CN", "Chinese (Simplified, China)"),

@@ -74,8 +74,8 @@ public class TextSelectionModelTests
     {
         var model = OcrProbeData.ModelOf(OcrProbeData.ContactLine());
 
-        // 连字符被误识别成「一」，但词距很近，应粘成 "138一0000一1234" 而不是散开
-        Assert.Equal("EmaiI: test@example.com Tel: 138一0000一1234", model.GetAllText());
+        // 明确的手机号码结构把误识别的「一」纠正为横杠，词框仍按原坐标使用。
+        Assert.Equal("EmaiI: test@example.com Tel: 138-0000-1234", model.GetAllText());
     }
 
     // ---------- 命中测试：实测暴露的两个硬骨头 ----------
@@ -103,7 +103,7 @@ public class TextSelectionModelTests
         var hit = model.WordIndexFromPoint(508, 350);
 
         Assert.NotNull(hit);
-        Assert.Equal("一", model.Words[hit!.Value].Text);
+        Assert.Equal("-", model.Words[hit!.Value].Text);
     }
 
     [Fact]

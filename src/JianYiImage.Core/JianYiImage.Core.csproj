@@ -5,4 +5,12 @@
     <AssemblyName>JianYiImage.Core</AssemblyName>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Tesseract" Version="5.2.0" />
+    <Content Include="OcrData\eng.traineddata" Link="tessdata\eng.traineddata" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="OcrData\LICENSE.txt" Link="tessdata\LICENSE.txt" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="OcrData\leptonica-license.txt" Link="tessdata\leptonica-license.txt" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\..\THIRD_PARTY_NOTICES.md" Link="THIRD_PARTY_NOTICES.md" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+
 </Project>

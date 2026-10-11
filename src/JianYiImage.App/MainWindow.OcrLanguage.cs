@@ -17,9 +17,17 @@ public sealed partial class MainWindow
     private AppSettings _settings = new();
 
     /// <summary>按保存的偏好创建引擎；偏好指向的语言包已不在时退回自动。</summary>
-    private static WindowsOcrEngine? CreateOcrEngine(string? saved) =>
-        WindowsOcrEngine.TryCreate(
-            OcrLanguageSelection.ResolveRequestedTag(saved, WindowsOcrEngine.GetAvailableLanguages()));
+    private static IOcrEngine? CreateOcrEngine(string? saved) =>
+        string.Equals(saved, TesseractOcrEngine.LanguageTag, StringComparison.OrdinalIgnoreCase) && TesseractOcrEngine.TryCreate() is { } precise
+            ? precise
+            : WindowsOcrEngine.TryCreate(OcrLanguageSelection.ResolveRequestedTag(saved, WindowsOcrEngine.GetAvailableLanguages()));
+
+    private static IReadOnlyList<OcrLanguageInfo> GetOcrLanguages()
+    {
+        var languages = WindowsOcrEngine.GetAvailableLanguages().ToList();
+        if (TesseractOcrEngine.TryCreate() is { } precise) languages.Add(precise.Language);
+        return languages;
+    }
 
     /// <summary>
     /// 「识别语言」子菜单。右键菜单和「⋯」菜单每次打开都会重建，
@@ -27,7 +35,7 @@ public sealed partial class MainWindow
     /// </summary>
     private WinUIControls.MenuFlyoutSubItem BuildOcrLanguageMenu()
     {
-        var available = WindowsOcrEngine.GetAvailableLanguages();
+        var available = GetOcrLanguages();
         var effective = OcrLanguageSelection.ResolveRequestedTag(_settings.OcrLanguage, available)
             ?? OcrLanguageSelection.Auto;
 
@@ -68,7 +76,7 @@ public sealed partial class MainWindow
 
     private async Task ChangeOcrLanguageAsync(string tag)
     {
-        var current = OcrLanguageSelection.ResolveRequestedTag(_settings.OcrLanguage, WindowsOcrEngine.GetAvailableLanguages())
+        var current = OcrLanguageSelection.ResolveRequestedTag(_settings.OcrLanguage, GetOcrLanguages())
             ?? OcrLanguageSelection.Auto;
         if (OcrLanguageSelection.IsSelected(current, tag))
         {

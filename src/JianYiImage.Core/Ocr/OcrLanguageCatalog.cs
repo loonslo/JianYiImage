@@ -58,6 +58,7 @@ public static class OcrLanguageCatalog
     /// </summary>
     public static string DisplayName(OcrLanguageInfo language)
     {
+        if (language.LanguageTag == TesseractOcrEngine.LanguageTag) return language.DisplayName;
         var entry = Entries.FirstOrDefault(e =>
             string.Equals(e.EngineTag, language.LanguageTag, StringComparison.OrdinalIgnoreCase));
         if (entry is not null)

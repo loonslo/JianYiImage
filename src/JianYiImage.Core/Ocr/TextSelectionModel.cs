@@ -356,7 +356,8 @@ public sealed class TextSelectionModel
 
                 currentLine = lineIdx;
             }
-            else if (NeedsSpace(_words[i - 1], _words[i], _lines[lineIdx].Height))
+            else if (!_lines[lineIdx].JoinPrevious[i - _lineFirstWord[lineIdx]] &&
+                (_words[i].SpaceBefore ?? NeedsSpace(_words[i - 1], _words[i], _lines[lineIdx].Height)))
             {
                 sb.Append(' ');
             }
@@ -374,7 +375,7 @@ public sealed class TextSelectionModel
     /// 判断行内相邻两词之间是否需要补空格。
     /// 两条规则：CJK 之间从不补；其余按词距相对行高的比例判断。
     /// </summary>
-    private static bool NeedsSpace(WordBox left, WordBox right, double lineHeight)
+    internal static bool NeedsSpace(WordBox left, WordBox right, double lineHeight)
     {
         // 中文逐字成词（实测），字与字、字与中文标点之间都不能有空格
         if (left.IsCjk && right.IsCjk)

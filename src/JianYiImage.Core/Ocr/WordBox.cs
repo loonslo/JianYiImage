@@ -10,7 +10,8 @@ namespace JianYiImage.Core.Ocr;
 /// <param name="Top">上边界（原图像素）。</param>
 /// <param name="Width">宽度（原图像素）。</param>
 /// <param name="Height">高度（原图像素）。</param>
-public readonly record struct WordBox(string Text, double Left, double Top, double Width, double Height)
+/// <param name="SpaceBefore">引擎明确返回的词间空格；null 时按字框间距推断。</param>
+public readonly record struct WordBox(string Text, double Left, double Top, double Width, double Height, bool? SpaceBefore = null)
 {
     public double Right => Left + Width;
 

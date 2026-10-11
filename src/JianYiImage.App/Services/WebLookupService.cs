@@ -1,4 +1,5 @@
 using Windows.System;
+using JianYiImage.Core.Text;
 
 namespace JianYiImage.App.Services;
 
@@ -21,5 +22,5 @@ public static class WebLookupService
     private static Task LaunchAsync(string url) => Launcher.LaunchUriAsync(new Uri(url)).AsTask();
 
     private static string Truncate(string text) =>
-        text.Length <= MaxQueryLength ? text : text[..MaxQueryLength];
+        TextTruncation.AtTextElementBoundary(text, MaxQueryLength);
 }

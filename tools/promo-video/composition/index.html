@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>简壹图片浏览器 · 宣传片合成</title>
+<link rel="stylesheet" href="promo.css">
+</head>
+<!--
+  1080x1920 composition of the promo video. Every visual is a pure function of the time t: render.py calls
+  window.renderFrame(n) for each frame and screenshots the page. Query parameters:
+    data=<file URL of data.js written by build_data.py>   (required: recorded clips and their logs)
+    style=dark|light                                      (colour scheme)
+    t=<seconds>                                           (render one moment right away, for previews)
+-->
+<body>
+<div id="stage">
+  <div id="bg">
+    <div class="glow g1"></div><div class="glow g2"></div><div class="glow g3"></div>
+    <div id="grid"></div>
+  </div>
+  <div id="captions"></div>
+  <div id="card">
+    <div id="cam"><img id="shot" alt=""><img id="still" alt=""></div>
+    <div id="cardfx"></div>
+  </div>
+  <div id="tag"></div>
+  <div id="fx"></div>
+  <div id="brand"></div>
+  <div id="end"></div>
+  <div id="flash"></div>
+</div>
+<script src="promo.js"></script>
+</body>
+</html>

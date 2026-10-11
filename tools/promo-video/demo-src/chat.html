@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<!-- 宣传片用的虚构群聊截图：群名、人名、地址、电话、密码都是编的。 -->
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1080px; height: 1700px; overflow: hidden; }
+  body {
+    font-family: "Microsoft YaHei", "Microsoft YaHei UI", sans-serif;
+    background: #eceef2;
+    color: #1d2129;
+    position: relative;
+  }
+  .status { height: 70px; display: flex; align-items: center; justify-content: space-between; padding: 0 56px 0 60px;
+            font-size: 32px; font-weight: 700; background: #f5f6f8; }
+  .status .icons { display: flex; align-items: center; gap: 14px; }
+  .bars { display: flex; align-items: flex-end; gap: 5px; height: 26px; }
+  .bars i { display: block; width: 7px; background: #1d2129; border-radius: 2px; }
+  .battery { width: 52px; height: 26px; border: 3px solid #1d2129; border-radius: 7px; padding: 3px; position: relative; }
+  .battery::after { content: ""; position: absolute; right: -9px; top: 7px; width: 5px; height: 9px; background: #1d2129; border-radius: 0 3px 3px 0; }
+  .battery b { display: block; width: 70%; height: 100%; background: #1d2129; border-radius: 3px; }
+  .top { height: 116px; display: flex; align-items: center; justify-content: center; position: relative;
+         font-size: 40px; font-weight: 700; background: #f5f6f8; border-bottom: 2px solid #dfe2e8; }
+  .top .back { position: absolute; left: 44px; top: 36px; width: 34px; height: 34px; border-left: 5px solid #1d2129; border-bottom: 5px solid #1d2129; transform: rotate(45deg); }
+  .top .more { position: absolute; right: 52px; top: 52px; display: flex; gap: 10px; }
+  .top .more i { display: block; width: 11px; height: 11px; border-radius: 50%; background: #1d2129; }
+  .msgs { padding: 34px 40px 0; }
+  .time { text-align: center; font-size: 28px; color: #8a909b; margin: 6px 0 34px; }
+  .msg { display: flex; align-items: flex-start; margin-bottom: 40px; }
+  .av { width: 100px; height: 100px; border-radius: 22px; flex: none; display: flex; align-items: center; justify-content: center;
+        font-size: 44px; font-weight: 700; color: #fff; }
+  .body { margin-left: 26px; }
+  .name { font-size: 28px; color: #8a909b; margin: 0 0 12px 6px; }
+  .bubble { display: inline-block; background: #fff; border-radius: 20px; padding: 24px 32px; font-size: 44px; line-height: 1.4;
+            white-space: nowrap; box-shadow: 0 2px 0 rgba(20, 30, 50, .05); }
+  .mine { flex-direction: row-reverse; }
+  .mine .body { margin: 0 26px 0 0; text-align: right; }
+  .mine .bubble { background: #a8e2bb; }
+  .input { position: absolute; left: 0; right: 0; bottom: 0; height: 150px; background: #f5f6f8; border-top: 2px solid #dfe2e8;
+           display: flex; align-items: center; padding: 0 40px; gap: 26px; }
+  .input .field { flex: 1; height: 84px; border-radius: 18px; background: #fff; }
+  .input .circle { width: 70px; height: 70px; border-radius: 50%; border: 5px solid #3a3f4a; }
+</style>
+</head>
+<body>
+<div class="status">
+  <span>20:31</span>
+  <span class="icons">
+    <span class="bars"><i style="height:8px"></i><i style="height:14px"></i><i style="height:20px"></i><i style="height:26px"></i></span>
+    <span class="battery"><b></b></span>
+  </span>
+</div>
+<div class="top"><span class="back"></span>周末读书会（6）<span class="more"><i></i><i></i><i></i></span></div>
+<div class="msgs">
+  <div class="time">周四 20:31</div>
+  <div class="msg">
+    <div class="av" style="background:#ff8fa8">林</div>
+    <div class="body"><div class="name">小林</div><div class="bubble">周六下午两点，别迟到哦</div></div>
+  </div>
+  <div class="msg">
+    <div class="av" style="background:#ff8fa8">林</div>
+    <div class="body"><div class="name">小林</div><div class="bubble">海滨区半山路 88 号文化中心 2 楼</div></div>
+  </div>
+  <div class="msg mine">
+    <div class="av" style="background:#5e9bff">我</div>
+    <div class="body"><div class="bubble">收到！我直接导航过去</div></div>
+  </div>
+  <div class="msg">
+    <div class="av" style="background:#37b873">青</div>
+    <div class="body"><div class="name">阿青</div><div class="bubble">Wi-Fi 密码是 20261010</div></div>
+  </div>
+  <div class="msg">
+    <div class="av" style="background:#ff8fa8">林</div>
+    <div class="body"><div class="name">小林</div><div class="bubble">找不到就打我电话 138 0000 1234</div></div>
+  </div>
+</div>
+<div class="input"><span class="circle"></span><span class="field"></span><span class="circle"></span></div>
+</body>
+</html>
