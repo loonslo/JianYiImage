@@ -149,14 +149,7 @@ public sealed class ZoomPanController
         // 手动缩放（包括已经是 100% 时再次点击实际大小）关闭自动适应。
         _viewportFitMode = ViewportFitMode.Manual;
         var newScale = Math.Clamp(targetScale, MinScale, MaxScale);
-        if (newScale < 1.0 && _viewportWidth > 0 && _viewportHeight > 0)
-        {
-            // 低于 100% 表示缩小查看整张图。若目标比例仍会超出视口，
-            // 直接收至完整适应比例，避免把“缩小”变成仅显示图片的一部分。
-            var fitScale = Math.Min(_viewportWidth / _imageWidth, _viewportHeight / _imageHeight);
-            newScale = Math.Min(newScale, fitScale);
-        }
-
+        // 手动比例独立于适应比例：长图在低于 100% 时也需要逐步放大并平移。
         if (Math.Abs(newScale - Scale) < double.Epsilon)
         {
             return;

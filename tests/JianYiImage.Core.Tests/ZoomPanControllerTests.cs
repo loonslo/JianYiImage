@@ -56,15 +56,72 @@ public class ZoomPanControllerTests
     }
 
     [Fact]
-    public void 低于百分之百但尚未适应视口时自动收至完整显示比例()
+    public void 低于百分之百时保留手动比例并允许平移()
     {
         var controller = Create();
         controller.ActualSize();
 
         controller.ZoomTo(0.9, 500, 400);
 
-        Assert.Equal(0.25, controller.Scale, precision: 6);
+        Assert.Equal(0.9, controller.Scale, precision: 6);
+        Assert.True(controller.CanPan);
+    }
+
+    [Theory]
+    [InlineData(9566, 990, 1.0)]
+    [InlineData(990, 9566, 1.0)]
+    [InlineData(9566, 990, 1.5)]
+    [InlineData(990, 9566, 2.0)]
+    public void 长图从适应比例连续放大后可以拖到两端再恢复全图(
+        double imageWidth, double imageHeight, double dpiScale)
+    {
+        var controller = Create(imageWidth, imageHeight, 1000 * dpiScale, 800 * dpiScale);
+        controller.FitToWindowWithoutUpscale();
+        var fitScale = controller.Scale;
+        var anchorX = controller.ViewportWidth / 2;
+        var anchorY = controller.ViewportHeight / 2;
+
+        for (var i = 0; i < 4; i++)
+        {
+            var previousScale = controller.Scale;
+            controller.ZoomAt(1.15, anchorX, anchorY);
+            Assert.Equal(previousScale * 1.15, controller.Scale, precision: 6);
+        }
+
+        Assert.True(controller.Scale < 1);
+        Assert.True(controller.CanPan);
+        var enlargedScale = controller.Scale;
+        controller.Pan(100000, 100000);
+        Assert.Equal(Math.Max(0, (controller.ViewportWidth - controller.ScaledWidth) / 2), controller.OffsetX, precision: 6);
+        Assert.Equal(Math.Max(0, (controller.ViewportHeight - controller.ScaledHeight) / 2), controller.OffsetY, precision: 6);
+        controller.Pan(-100000, -100000);
+        Assert.Equal(Math.Min(controller.ViewportWidth - controller.ScaledWidth, (controller.ViewportWidth - controller.ScaledWidth) / 2), controller.OffsetX, precision: 6);
+        Assert.Equal(Math.Min(controller.ViewportHeight - controller.ScaledHeight, (controller.ViewportHeight - controller.ScaledHeight) / 2), controller.OffsetY, precision: 6);
+        Assert.Equal(enlargedScale, controller.Scale);
+
+        controller.ZoomAt(1 / 1.15, anchorX, anchorY);
+        Assert.Equal(enlargedScale / 1.15, controller.Scale, precision: 6);
+        Assert.True(controller.CanPan);
+
+        controller.FitToWindow();
+        Assert.Equal(fitScale, controller.Scale, precision: 6);
         AssertEntireImageVisible(controller);
+    }
+
+    [Fact]
+    public void 百分之百以下的放大保持超出视口轴上的鼠标锚点()
+    {
+        var controller = Create(9566, 990);
+        controller.FitToWindowWithoutUpscale();
+        var before = controller.ViewportToImage(730, 400);
+        var beforeScale = controller.Scale;
+
+        controller.ZoomAt(1.15, 730, 400);
+
+        var after = controller.ViewportToImage(730, 400);
+        Assert.Equal(beforeScale * 1.15, controller.Scale, precision: 6);
+        Assert.Equal(before.X, after.X, precision: 6);
+        Assert.Equal(before.Y, after.Y, precision: 6);
     }
 
     [Fact]
