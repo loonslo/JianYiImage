@@ -178,6 +178,10 @@ def main() -> int:
         publish_command.append(f"-p:SourceRevisionId={revision}")
     run(publish_command)
 
+    # Both the portable archive and installer must carry the distribution notices.
+    for notice in ("LICENSE", "THIRD_PARTY_NOTICES.md"):
+        shutil.copy2(ROOT / notice, publish / notice)
+
     findings = scan_for_leaks(publish)
     if findings:
         print("the published files contain build or personal information; nothing was written to --out:")
